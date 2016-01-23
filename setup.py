@@ -32,7 +32,7 @@ setup\
     , author = __author__
     , author_email = __email__
 
-    , packages = ['opyum']
+    , packages = ['opyum', 'opyum.optimizations']
     , include_package_data = True
     , zip_safe = False
 
