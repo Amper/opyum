@@ -1,6 +1,6 @@
 opyum
 ================================================
-http://opyum.marshalov.org
+https://github.com/Amper/opyum
 
 .. image:: https://img.shields.io/pypi/v/opyum.svg
     :target: https://pypi.python.org/pypi/opyum
