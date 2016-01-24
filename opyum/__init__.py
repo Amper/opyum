@@ -26,7 +26,7 @@ from .hook import \
 __version__ = (0, 1, 0)
 __author__  = 'Alexander Marshalov'
 __email__   = '_@marshalov.org'
-__url__     = 'http://opyum.marshalov.org'
+__url__     = 'https://github.com/Amper/opyum'
 __all__     = \
             [ "BasicOptimization"
             , "ASTOptimization"
