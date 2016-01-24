@@ -57,8 +57,8 @@ def main(args):
                             diff = diff.make_file\
                                         ( fromlines = src_before.split("\n")
                                         , tolines   = src_after.split("\n")
-                                        , fromdesc  = "original [{}]".format(path)
-                                        , todesc    = "optimized [{}]".format(tmp.name)
+                                        , fromdesc  = "original"
+                                        , todesc    = "optimized"
                                         )
                             tmp.write(diff)
                             tmp.flush()
