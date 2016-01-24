@@ -47,6 +47,6 @@ class ConstantFolding(ASTOptimization):
                 node = ast.copy_location(ast.Num(n = val), node)
         elif all(isinstance(value, ast.Str) for value in (left, right)):
            if isinstance(node.op, ast.Add):
-                val  = left.s + left.s
+                val  = left.s + right.s
                 node = ast.copy_location(ast.Str(s = val), node)
         return node

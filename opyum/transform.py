@@ -8,8 +8,8 @@ import functools
 import types
 import inspect
 
-from .decompile import to_ast
-from .compile import from_ast
+from .decompile     import to_ast
+from .compile       import from_ast, ast_to_source
 from .optimizations import BasicOptimization
 
 
@@ -107,8 +107,11 @@ def get_source\
                 , value         = value
                 )
     
-    tree   = to_ast(value)
-    result = ast_to_code(tree)
+    if isinstance(value, str):
+        result = value
+    else:
+        tree   = to_ast(value)
+        result = ast_to_source(tree)
 
     return result
 

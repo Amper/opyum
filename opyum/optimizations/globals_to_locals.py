@@ -58,7 +58,7 @@ class GlobalsToLocals(ASTOptimization):
 
         changed = False
         for name in (_ for _, count in ns['new'].items() if count > 1):
-            kwoa.append(ast.arg(arg=name))
+            kwoa.append(ast.arg(arg=name, annotation=None))
             kwdef.append(ast.Name(id=name, ctx=ast.Load()))
         else:
             return node

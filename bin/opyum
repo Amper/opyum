@@ -4,21 +4,23 @@
 
 Usage:
   opyum show <path>
-  opyum diff <path>
+  opyum diff <path> [-c | --console | --app=<app>]
   opyum (-h | --help)
   opyum --version
 
 Options:
-  --app <app>   The command to start the comparison.
+  -c --console  Output to the console instead of html
+  --app=<app>   The command to start the comparison (diff, for example).
   -h --help     Show this screen.
   --version     Show version.
 """
+
 
 from docopt     import docopt
 from opyum      import __version__, get_source
 from subprocess import call
 from tempfile   import NamedTemporaryFile
-from difflib    import HtmlDiff
+from difflib    import HtmlDiff, ndiff
 from webbrowser import open_new_tab
 
 
@@ -35,19 +37,32 @@ def main(args):
         with open(path) as file:
             src_before = file.read()
             src_after  = get_source(src_before, optimized=True)
-            if args['show']:
+            if args.get('show'):
                 print(src_after)
-            elif args['diff']:
-                app = args['app']
-                if app:
-                    with NamedTemporaryFile(mode="w", suffix=".py") as opt:
-                        opt.write(src_after)
-                        call([app, path, opt.name])
+                return
+            elif args.get('diff'):
+                if args.get("--console"):
+                    for line in ndiff(src_before.split("\n"), src_after.split("\n")):
+                        print(line)
                 else:
-                    with NamedTemporaryFile(mode="w", suffix=".html") as html:
-                        diff = HtmlDiff(tabsize=4).make_file(src_before, src_after)
-                        html.write(diff)
-                        open_new_tab('file://{}'.format(html.name))
+                    app = args.get('--app')
+                    ext = ".py" if app else ".html"
+                    with NamedTemporaryFile(mode="w", suffix=ext, delete=False) as tmp:
+                        if app:
+                            tmp.write(src_after)
+                            tmp.flush()
+                            call([app, path, tmp.name])
+                        else:
+                            diff = HtmlDiff(tabsize=4)
+                            diff = diff.make_file\
+                                        ( fromlines = src_before.split("\n")
+                                        , tolines   = src_after.split("\n")
+                                        , fromdesc  = "original [{}]".format(path)
+                                        , todesc    = "optimized [{}]".format(tmp.name)
+                                        )
+                            tmp.write(diff)
+                            tmp.flush()
+                            open_new_tab('file://{}'.format(tmp.name))
 
 
 if __name__ == "__main__":
