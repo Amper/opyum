@@ -114,8 +114,10 @@ class BasicOptimization(object, metaclass = ABCMeta):
         """
 
         """
-        optimization = cls._check_optimization(optimization)
-        del cls.optimizations[optimization.id]
+        if not isinstance(optimization, str):
+            optimization = cls._check_optimization(optimization)
+            optimization = optimization.id
+        del cls.optimizations[optimization]
 
 
 class ASTOptimization(BasicOptimization, NodeTransformer):

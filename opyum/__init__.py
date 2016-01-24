@@ -2,16 +2,15 @@
 
 """
 
-import opyum.optimizations
 from .optimizations import \
     ( BasicOptimization
     , ASTOptimization
     , ByteCodeOptimization
-    # , all_optimizations
-    # , ast_optimizations
-    # , bytecode_optimizations
-    # , install
-    # , uninstall
+    , all_optimizations
+    , ast_optimizations
+    , bytecode_optimizations
+    , install
+    , uninstall
     )
 from .transform import \
     ( optimize
@@ -23,7 +22,7 @@ from .hook import \
     )
 
 
-__version__ = (0, 1, 1)
+__version__ = (0, 1, 2)
 __author__  = 'Alexander Marshalov'
 __email__   = '_@marshalov.org'
 __url__     = 'https://github.com/Amper/opyum'
@@ -36,9 +35,9 @@ __all__     = \
             , "get_source"
             , "activate"
             , "deactivate"
-            # , "all_optimizations"
-            # , "ast_optimizations"
-            # , "bytecode_optimizations"
-            # , "install"
-            # , "uninstall"
+            , "all_optimizations"
+            , "ast_optimizations"
+            , "bytecode_optimizations"
+            , "install"
+            , "uninstall"
             ]
