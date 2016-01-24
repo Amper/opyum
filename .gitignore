@@ -117,8 +117,7 @@ fabric.properties
 
 *.pydevproject
 .metadata
-.gradle
-bin/
+.gradle 
 tmp/
 *.tmp
 *.bak
@@ -276,7 +275,6 @@ Session.vim
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 .Python
-[Bb]in
 [Ii]nclude
 [Ll]ib
 [Ll]ocal

@@ -6,6 +6,7 @@
 import ast
 import functools
 import types
+import inspect
 
 from .decompile import to_ast
 from .compile import from_ast
@@ -13,8 +14,8 @@ from .optimizations import BasicOptimization
 
 
 __all__ = \
-        [ "transform"
-        , "optimize"
+        [ "optimize"
+        , "get_source"
         ]
 
 
@@ -76,3 +77,36 @@ def optimize\
         result = functools.partial(transform, transformers=optimizations, file=file)
 
     return result
+
+
+def get_source\
+    ( value
+    , optimized: bool = False
+    , optimizations: (BasicOptimization, type, list, tuple) = None
+    , level: (float, int) = None
+    , classes: tuple = None
+    ):
+
+    """
+
+    """
+
+    if not value:
+        return ""
+
+    if optimized:
+        value = optimize\
+                ( optimizations = optimizations
+                , level         = level
+                , classes       = classes
+                , file          = inspect.getfile(value)
+                , value         = value
+                )
+    
+    tree   = to_ast(value)
+    result = ast_to_code(tree)
+
+    return result
+
+
+
