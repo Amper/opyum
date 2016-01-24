@@ -18,7 +18,7 @@ from docopt     import docopt
 from opyum      import __version__, get_source
 from subprocess import call
 from tempfile   import NamedTemporaryFile
-from difflib    import HtmlDiff, unified_diff
+from difflib    import HtmlDiff
 from webbrowser import open_new_tab
 
 
@@ -34,7 +34,7 @@ def main(args):
             print("Not specified path")
         with open(path) as file:
             src_before = file.read()
-            src_after  = get_source(src_after, optimized=True)
+            src_after  = get_source(src_before, optimized=True)
             if args['show']:
                 print(src_after)
             elif args['diff']:
@@ -51,5 +51,5 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(docopt(__doc__, version='opyum {}'.format('.'.join(__version__)))
-
+    version = 'opyum {}'.format('.'.join(map(str, __version__)))
+    main(docopt( __doc__, version = version))

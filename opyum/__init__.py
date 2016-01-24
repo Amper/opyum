@@ -2,7 +2,7 @@
 
 """
 
-import optimizations
+import opyum.optimizations
 from .optimizations import \
     ( BasicOptimization
     , ASTOptimization

@@ -95,11 +95,15 @@ def get_source\
         return ""
 
     if optimized:
+        try:
+            file = inspect.getfile(value)
+        except TypeError:
+            file = None
         value = optimize\
                 ( optimizations = optimizations
                 , level         = level
                 , classes       = classes
-                , file          = inspect.getfile(value)
+                , file          = file
                 , value         = value
                 )
     
