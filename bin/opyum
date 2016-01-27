@@ -34,6 +34,7 @@ def main(args):
     if args['show'] or args['diff']:
         if not path:
             print("Not specified path")
+            return
         with open(path) as file:
             src_before = file.read()
             src_after  = get_source(src_before, optimized=True)
