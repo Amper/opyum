@@ -2,13 +2,9 @@ opyum
 ================================================
 
 ![version](https://img.shields.io/pypi/v/opyum.svg)
-
-![downloads](https://img.shields.io/pypi/v/opyum.svg)
-
+![downloads](https://img.shields.io/pypi/dw/opyum.svg)
 ![license](https://img.shields.io/pypi/l/opyum.svg)
-
 ![status](https://img.shields.io/pypi/status/opyum.svg)
-
 ![pyversions](https://img.shields.io/pypi/pyversions/opyum.svg)
 
 
