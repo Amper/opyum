@@ -25,7 +25,7 @@ Installation is simple with pip::
 
     $ pip install opyum
 
-or
+or with setuptools::
 
 	$ easy_install opyum
 
