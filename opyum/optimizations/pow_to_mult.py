@@ -51,6 +51,7 @@ class PowToMult(ASTOptimization):
             degree = (    right.n         if isinstance(right, ast.Num) 
                     else -right.operand.n if isinstance(right.op, ast.USub) 
                     else  right.operand.n )
+            degree = int(degree)
             if abs(degree) == 0:
                 node = ast.copy_location(ast.Num(n = 1), node)
             elif abs(degree) == 1:

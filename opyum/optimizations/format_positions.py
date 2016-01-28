@@ -32,6 +32,9 @@ class FormatPositions(ASTOptimization):
                 if func.attr == 'format' and isinstance(func.ctx, ast.Load):
                     if isinstance(func.value, ast.Str):
                         s = node.func.value.s
-                        positions = ('{{0}}'.format(n) for n in range(0, s.count('{')))
-                        node.func.value.s = s.format(*positions)
+                        positions = ['{' + str(n) + '}' for n in range(0, s.count('{'))]
+                        try:
+                            node.func.value.s = s.format(*positions)
+                        except ValueError as exc:
+                            pass
         return node
