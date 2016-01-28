@@ -1,7 +1,7 @@
 opyum
 ================================================
 
-![version](https://img.shields.io/pypi/v/opyum.svg)
+[![version](https://img.shields.io/pypi/v/opyum.svg)](http://pypi.python.org/pypi/opyum)
 ![downloads](https://img.shields.io/pypi/dw/opyum.svg)
 ![license](https://img.shields.io/pypi/l/opyum.svg)
 ![status](https://img.shields.io/pypi/status/opyum.svg)
@@ -23,7 +23,7 @@ Installation is simple with pip:
 
 or with setuptools:
 
-	$ easy_install opyum
+    $ easy_install opyum
 
 
 Documentation
