@@ -1,20 +1,15 @@
 opyum
 ================================================
 
-.. image:: https://img.shields.io/pypi/v/opyum.svg
-    :target: https://pypi.python.org/pypi/opyum
+![version](https://img.shields.io/pypi/v/opyum.svg)
 
-.. image:: https://img.shields.io/pypi/dm/opyum.svg
-    :target: https://pypi.python.org/pypi/opyum
+![downloads](https://img.shields.io/pypi/v/opyum.svg)
 
-.. image:: https://img.shields.io/pypi/l/opyum.svg
-    :target: https://pypi.python.org/pypi/opyum
+![license](https://img.shields.io/pypi/l/opyum.svg)
 
-.. image:: https://img.shields.io/pypi/status/opyum.svg
-    :target: https://pypi.python.org/pypi/opyum
+![status](https://img.shields.io/pypi/status/opyum.svg)
 
-.. image:: https://img.shields.io/pypi/pyversions/opyum.svg
-    :target: https://pypi.python.org/pypi/opyum
+![pyversions](https://img.shields.io/pypi/pyversions/opyum.svg)
 
 
 Description
@@ -38,6 +33,7 @@ or
 Documentation
 -------------
 
- http://opyum.readthedocs.org/
- http://opyum.rtfd.org/
+ [opyum.readthedocs.org](http://opyum.readthedocs.org/)
+
+ [opyum.rtfd.org](http://opyum.rtfd.org/)
 
