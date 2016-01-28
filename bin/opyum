@@ -41,29 +41,30 @@ def main(args):
             if args.get('show'):
                 print(src_after)
                 return
+            elif args.get('diff') and args.get("--console"):
+                for line in ndiff(src_before.split("\n"), src_after.split("\n")):
+                    print(line)
+                 return
             elif args.get('diff'):
-                if args.get("--console"):
-                    for line in ndiff(src_before.split("\n"), src_after.split("\n")):
-                        print(line)
-                else:
-                    app = args.get('--app')
-                    ext = ".py" if app else ".html"
-                    with NamedTemporaryFile(mode="w", suffix=ext, delete=False) as tmp:
-                        if app:
-                            tmp.write(src_after)
-                            tmp.flush()
-                            call([app, path, tmp.name])
-                        else:
-                            diff = HtmlDiff(tabsize=4)
-                            diff = diff.make_file\
-                                        ( fromlines = src_before.split("\n")
-                                        , tolines   = src_after.split("\n")
-                                        , fromdesc  = "original"
-                                        , todesc    = "optimized"
-                                        )
-                            tmp.write(diff)
-                            tmp.flush()
-                            open_new_tab('file://{}'.format(tmp.name))
+                app = args.get('--app')
+                ext = ".py" if app else ".html"
+                with NamedTemporaryFile(mode="w", suffix=ext, delete=False) as tmp:
+                    if app:
+                        tmp.write(src_after)
+                        tmp.flush()
+                        call([app, path, tmp.name])
+                    else:
+                        diff = HtmlDiff(tabsize=4)
+                        diff = diff.make_file\
+                                    ( fromlines = src_before.split("\n")
+                                    , tolines   = src_after.split("\n")
+                                    , fromdesc  = "original"
+                                    , todesc    = "optimized"
+                                    )
+                        tmp.write(diff)
+                        tmp.flush()
+                        open_new_tab('file://{}'.format(tmp.name))
+                return
 
 
 if __name__ == "__main__":
