@@ -17,11 +17,11 @@ Optimizing Python applications without mutilation code
 Installation
 ------------
 
-Installation is simple with pip::
+Installation is simple with pip:
 
     $ pip install opyum
 
-or with setuptools::
+or with setuptools:
 
 	$ easy_install opyum
 
