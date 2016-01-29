@@ -35,6 +35,6 @@ class FormatPositions(ASTOptimization):
                         positions = ['{' + str(n) + '}' for n in range(0, s.count('{'))]
                         try:
                             node.func.value.s = s.format(*positions)
-                        except ValueError as exc:
+                        except (ValueError, IndexError) as exc:
                             pass
         return node

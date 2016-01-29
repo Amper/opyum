@@ -39,19 +39,19 @@ class MultToSum(ASTOptimization):
         node = self.generic_visit(node)
         if self._is_numeric_mult(node):
             if isinstance(node.right, ast.Num):
-                if node.right.n == 2:
-                    node.op    = ast.copy_location(ast.Add(), node.op)
-                    node.right = copy(node.left)
+                if node.right.n == 0:
+                    node       = ast.copy_location(ast.Num(n = 0), node)
                 elif node.right.n == 1:
                     node       = node.left
-                elif node.right.n == 0:
-                    node       = ast.copy_location(ast.Num(n = 0), node)
+                # elif node.right.n == 2:
+                #     node.op    = ast.copy_location(ast.Add(), node.op)
+                #     node.right = copy(node.left)
             elif isinstance(node.left , ast.Num):
-                if node.left.n == 2:
-                    node.op    = ast.copy_location(ast.Add(), node.op)
-                    node.left  = copy(node.right)
+                if node.left.n == 0:
+                    node       = ast.copy_location(ast.Num(n = 0), node)
                 elif node.left.n == 1:
                     node       = node.right
-                elif node.left.n == 0:
-                    node       = ast.copy_location(ast.Num(n = 0), node)
+                # elif node.left.n == 2:
+                #     node.op    = ast.copy_location(ast.Add(), node.op)
+                #     node.left  = copy(node.right)
         return node

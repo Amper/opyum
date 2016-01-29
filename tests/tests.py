@@ -1,6 +1,7 @@
 import unittest
 
 from opyum import *
+from timeit import timeit
 
 
 class TestApp(unittest.TestCase):
@@ -14,144 +15,244 @@ class TestApp(unittest.TestCase):
                 )
 
     def test_mult_to_sum_0(self):
+        time_before = 0 
+        time_after  = 0
         for src_before in \
-            ( "n = (n * 0)"
-            , "n = (n * 0.0)"
-            , "n = (0 * n)"
-            , "n = (0.0 * n)"
+            ( 'y = (x * 0)'
+            , 'y = (x * 0.0)'
+            , 'y = (0 * x)'
+            , 'y = (0.0 * x)'
             ):
-            src_after = self.optimize(src_before, 'MultToSum')
-            self.assertEqual("n = 0", src_after)
+            src_after    = self.optimize(src_before, 'MultToSum')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = 0', src_after)
+        self.assertGreaterEqual(time_before, time_after)
        
     def test_mult_to_sum_1(self):
+        time_before = 0 
+        time_after  = 0
         for src_before in \
-            ( "n = (n * 1)"
-            , "n = (n * 1.0)"
-            , "n = (1 * n)"
-            , "n = (1.0 * n)"
+            ( 'y = (x * 1)'
+            , 'y = (x * 1.0)'
+            , 'y = (1 * x)'
+            , 'y = (1.0 * x)'
             ):
-            src_after = self.optimize(src_before, 'MultToSum')
-            self.assertEqual("n = n", src_after)
+            src_after    = self.optimize(src_before, 'MultToSum')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = x', src_after)
+        self.assertGreaterEqual(time_before, time_after)
 
     def test_mult_to_sum_2(self):
+        # time_before = 0
+        # time_after  = 0
         for src_before in \
-            ( "n = (n * 2)"
-            , "n = (n * 2.0)"
-            , "n = (2 * n)"
-            , "n = (2.0 * n)"
+            ( 'y = (x * 2)'
+            , 'y = (x * 2.0)'
+            , 'y = (2 * x)'
+            , 'y = (2.0 * x)'
             ):
-            src_after = self.optimize(src_before, 'MultToSum')
-            self.assertEqual("n = (n + n)", src_after)
+            src_after    = self.optimize(src_before, 'MultToSum')
+            # time_before += timeit(src_before, setup="x = 10000")
+            # time_after  += timeit(src_after , setup="x = 10000")
+            # self.assertEqual('y = (x + x)', src_after)
+            self.assertEqual(src_before, src_after)
+        # self.assertGreaterEqual(time_before, time_after)
 
     def test_mult_to_sum_3(self):
-        for src_before in \
-            ( "n = (n * 3)"
-            , "n = (n * 3.0)"
-            , "n = (3 * n)"
-            , "n = (3.0 * n)"
-            ):
+        for src_before in ('y = (x * 3)', 'y = (3 * x)'):
             src_after = self.optimize(src_before, 'MultToSum')
             self.assertEqual(src_before, src_after)
 
     def test_pow_to_mult_0(self):
+        time_before = 0
+        time_after  = 0
         for src_before in \
-            ( "n = (n ** (- 0))"
-            , "n = (n ** (- 0.0))"
-            , "n = (n ** 0)"
-            , "n = (n ** 0.0)"
+            ( 'y = (x ** (- 0))'
+            , 'y = (x ** (- 0.0))'
+            , 'y = (x ** 0)'
+            , 'y = (x ** 0.0)'
             ):
-            src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = 1", src_after)
+            src_after    = self.optimize(src_before, 'PowToMult')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = 1', src_after)
+        self.assertGreaterEqual(time_before, time_after)
 
     def test_pow_to_mult_0_5(self):
-        for src_before in \
-            ( "n = (n ** (- 0.5))"
-            , "n = (n ** 0.5)"
-            ):
+        for src_before in ('y = (x ** (- 0.5))', 'y = (x ** 0.5)'):
             src_after = self.optimize(src_before, 'PowToMult')
             self.assertEqual(src_before, src_after)
 
     def test_pow_to_mult_1(self):
+        time_before = 0
+        time_after  = 0
+        for src_before in ('y = (x ** (- 1))', 'y = (x ** (- 1.0))'):
+            src_after    = self.optimize(src_before, 'PowToMult')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = (1 / x)', src_after)
+        self.assertGreaterEqual(time_before, time_after)
+        time_before = 0
+        time_after  = 0
         for src_before in \
-            ( "n = (n ** (- 1))"
-            , "n = (n ** (- 1.0))"
+            ( 'y = (x ** 1)'
+            , 'y = (x ** 1.0)'
+            , 'y = (x ** (+ 1))'
+            , 'y = (x ** (+ 1.0))'
             ):
-            src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = (1 / n)", src_after)
-        for src_before in \
-            ( "n = (n ** 1)"
-            , "n = (n ** 1.0)"
-            , "n = (n ** (+ 1))"
-            , "n = (n ** (+ 1.0))"
-            ):
-            src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = n", src_after)
+            src_after    = self.optimize(src_before, 'PowToMult')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = x', src_after)
+        self.assertGreaterEqual(time_before, time_after)
 
     def test_pow_to_mult_1_5(self):
-        for src_before in \
-            ( "n = (n ** (- 1.5))"
-            , "n = (n ** 1.5)"
-            ):
+        for src_before in ('y = (x ** (- 1.5))', 'y = (x ** 1.5)'):
             src_after = self.optimize(src_before, 'PowToMult')
             self.assertEqual(src_before, src_after)
 
     def test_pow_to_mult_2(self):
+        time_before = 0
+        time_after  = 0
+        for src_before in ('y = (x ** (- 2))', 'y = (x ** (- 2.0))'):
+            src_after    = self.optimize(src_before, 'PowToMult')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = (1 / (x * x))', src_after)
+        self.assertGreaterEqual(time_before, time_after)
+        time_before = 0
+        time_after  = 0
         for src_before in \
-            ( "n = (n ** (- 2))"
-            , "n = (n ** (- 2.0))"
+            ( 'y = (x ** 2)'
+            , 'y = (x ** 2.0)'
+            , 'y = (x ** (+ 2))'
+            , 'y = (x ** (+ 2.0))'
             ):
             src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = (1 / (n * n))", src_after)
-        for src_before in \
-            ( "n = (n ** 2)"
-            , "n = (n ** 2.0)"
-            , "n = (n ** (+ 2))"
-            , "n = (n ** (+ 2.0))"
-            ):
-            src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = (n * n)", src_after)
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = (x * x)', src_after)
+        self.assertGreaterEqual(time_before, time_after)
 
     def test_pow_to_mult_2_5(self):
-        for src_before in \
-            ( "n = (n ** (- 2.5))"
-            , "n = (n ** 2.5)"
-            ):
+        for src_before in ('y = (x ** (- 2.5))', 'y = (x ** 2.5)'):
             src_after = self.optimize(src_before, 'PowToMult')
             self.assertEqual(src_before, src_after)
 
     def test_pow_to_mult_3(self):
+        time_before = 0
+        time_after  = 0
+        for src_before in ('y = (x ** (- 3))', 'y = (x ** (- 3.0))'):
+            src_after    = self.optimize(src_before, 'PowToMult')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = (1 / ((x * x) * x))', src_after)
+        self.assertGreaterEqual(time_before, time_after)
+        time_before = 0
+        time_after  = 0
         for src_before in \
-            ( "n = (n ** (- 3))"
-            , "n = (n ** (- 3.0))"
+            ( 'y = (x ** 3)'
+            , 'y = (x ** 3.0)'
+            , 'y = (x ** (+ 3))'
+            , 'y = (x ** (+ 3.0))'
             ):
-            src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = (1 / ((n * n) * n))", src_after)
-        for src_before in \
-            ( "n = (n ** 3)"
-            , "n = (n ** 3.0)"
-            , "n = (n ** (+ 3))"
-            , "n = (n ** (+ 3.0))"
-            ):
-            src_after = self.optimize(src_before, 'PowToMult')
-            self.assertEqual("n = ((n * n) * n)", src_after)
+            src_after    = self.optimize(src_before, 'PowToMult')
+            time_before += timeit(src_before, setup="x = 10000")
+            time_after  += timeit(src_after , setup="x = 10000")
+            self.assertEqual('y = ((x * x) * x)', src_after)
+        self.assertGreaterEqual(time_before, time_after)
 
     def test_pow_to_mult_3_5(self):
-        for src_before in \
-            ( "n = (n ** (- 3.5))"
-            , "n = (n ** 3.5)"
-            ):
+        for src_before in ('y = (x ** (- 3.5))', 'y = (x ** 3.5)'):
             src_after = self.optimize(src_before, 'PowToMult')
             self.assertEqual(src_before, src_after)
 
     def test_pow_to_mult_4(self):
         for src_before in \
-            ( "n = (n ** (- 4))"
-            , "n = (n ** (- 4.0))"
-            , "n = (n ** 4)"
-            , "n = (n ** 4.0)"
+            ( 'y = (x ** (- 4))'
+            , 'y = (x ** (- 4.0))'
+            , 'y = (x ** 4)'
+            , 'y = (x ** 4.0)'
             ):
             src_after = self.optimize(src_before, 'PowToMult')
             self.assertEqual(src_before, src_after)
+
+    def test_yield_to_yield_from_1(self):
+        time_before  = 0
+        time_after   = 0
+        src_wrapper  = 'def test(x):\n    {}\nr = sum(test(x))'
+        src_before   = 'for y in range(x): yield y'
+        src_after    = self.optimize(src_before, 'YieldToYieldFrom')
+        src_before_w = src_wrapper.format(src_before)
+        src_after_w  = src_wrapper.format(src_after)
+        time_before += timeit(src_before_w, setup="x = 10")
+        time_after  += timeit(src_after_w , setup="x = 10")
+        self.assertEqual("yield from range(x)", src_after)
+        self.assertGreaterEqual(time_before, time_after)
+
+    def test_yield_to_yield_from_2(self):
+        src_before = 'for x in range(10):\n    yield (x + 1)'
+        src_after = self.optimize(src_before, 'YieldToYieldFrom')
+        self.assertEqual(src_before, src_after)
+
+    def test_format_positions_1(self):
+        time_before  = 0
+        time_after   = 0
+        src_before   = "'{}'.format(*x)"
+        src_after    = self.optimize(src_before, 'FormatPositions')
+        time_before += timeit(src_before, setup="x = [10000]")
+        time_after  += timeit(src_after , setup="x = [10000]")
+        self.assertEqual("'{0}'.format(*x)", src_after)
+
+    def test_format_positions_2(self):
+        time_before  = 0
+        time_after   = 0
+        src_before   = "'_{}_{}_'.format(*x)"
+        src_after    = self.optimize(src_before, 'FormatPositions')
+        time_before += timeit(src_before, setup="x = [10000, 10]")
+        time_after  += timeit(src_after , setup="x = [10000, 10]")
+        self.assertEqual("'_{0}_{1}_'.format(*x)", src_after)
+
+    def test_format_positions_3(self):
+        time_before  = 0
+        time_after   = 0
+        src_before   = "'{}{}{}'.format(*x)"
+        src_after    = self.optimize(src_before, 'FormatPositions')
+        time_before += timeit(src_before, setup="x = [10000, 10, 1]")
+        time_after  += timeit(src_after , setup="x = [10000, 10, 1]")
+        self.assertEqual("'{0}{1}{2}'.format(*x)", src_after)
+
+    def test_format_positions_4(self):
+        src_before = "'{0}'.format(*args)"
+        src_after = self.optimize(src_before, 'FormatPositions')
+        self.assertEqual(src_before, src_after)
+
+    def test_format_positions_5(self):
+        src_before = "'{1}'.format(*args)"
+        src_after = self.optimize(src_before, 'FormatPositions')
+        self.assertEqual(src_before, src_after)
+
+    def test_format_positions_6(self):
+        src_before = "'{}{1}'.format(*args)"
+        src_after = self.optimize(src_before, 'FormatPositions')
+        self.assertEqual(src_before, src_after)
+
+    def test_format_positions_7(self):
+        src_before = "'{0}{}'.format(*args)"
+        src_after = self.optimize(src_before, 'FormatPositions')
+        self.assertEqual(src_before, src_after)
+
+    def test_format_positions_8(self):
+        src_before = "'{0}{1}'.format(*args)"
+        src_after = self.optimize(src_before, 'FormatPositions')
+        self.assertEqual(src_before, src_after)
+
+    def test_format_positions_9(self):
+        src_before = "'{}{abc}'.format(*args, **kwargs)"
+        src_after = self.optimize(src_before, 'FormatPositions')
+        self.assertEqual(src_before, src_after)
 
 
 if __name__ == '__main__':
