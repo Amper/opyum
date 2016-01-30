@@ -17,6 +17,24 @@ Optimizing Python applications without mutilation code
 Usage
 -----------
 
+Decorator:
+
+```python
+from opyum import optimize
+
+@optimize
+def function_for_optimize():
+	...
+```
+
+Import-hook:
+
+```python
+import opyum
+opyum.activate()
+
+# other imports
+```
 
 
 Installation
