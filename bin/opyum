@@ -44,7 +44,7 @@ def main(args):
             elif args.get('diff') and args.get("--console"):
                 for line in ndiff(src_before.split("\n"), src_after.split("\n")):
                     print(line)
-                 return
+                return
             elif args.get('diff'):
                 app = args.get('--app')
                 ext = ".py" if app else ".html"

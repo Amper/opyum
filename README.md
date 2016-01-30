@@ -36,6 +36,14 @@ opyum.activate()
 # other imports
 ```
 
+Command-line mode:
+
+	$ opyum show myfile.py
+
+	$ opyum diff myfile.py
+
+	
+
 
 Installation
 ------------
