@@ -32,6 +32,15 @@ opyum.activate()
 # other imports
 ```
 
+### "With" syntax:
+
+```python
+import opyum
+
+with opyum.activate:
+	# other imports
+```
+
 ### Command-line mode:
 
 Show optimized source:

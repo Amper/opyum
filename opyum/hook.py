@@ -22,8 +22,9 @@ class Hook(object):
 
     def __init__(self):
         self._activated = False
+        self.activate   = self
 
-    def activate(self, modules=None, optimizations=None, classes=None, level=None):
+    def __call__(self, modules=None, optimizations=None, classes=None, level=None):
         """
 
         :param modules:
@@ -92,7 +93,16 @@ class Hook(object):
 
             self._activated = False
 
+    def __enter__(self):
+        if not self._activated:
+            self.activate()
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        self.deactivate()
+
     def __del__(self):
+        del self.activate
         self.deactivate()
 
 
