@@ -10,6 +10,7 @@
 ## Description
 
 **Optimizing Python applications without mutilation code.** 
+
 Use the automatic modification of AST for code optimization, which is transparent to the user and requires the addition of only a couple of lines.
 
 
