@@ -14,7 +14,7 @@ SCRIPTS = None
 if os.path.exists(PATH_BIN):
     SCRIPTS = [os.path.join('bin', f) for f in os.listdir(PATH_BIN) if os.path.join(PATH_BIN, f)]
 
-with open(os.path.join(PATH_BASE, 'README.rst')) as file_readme:
+with open(os.path.join(PATH_BASE, 'README.md')) as file_readme:
     README = file_readme.read()
 
 with open(os.path.join(PATH_BASE, 'REQUIREMENTS.txt')) as file_req:

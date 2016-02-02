@@ -34,7 +34,11 @@ opyum.activate()
 
 ### Command-line mode:
 
+Show optimized source:
+
 	$ opyum show myfile.py
+
+Diff between original source and optimized source:
 
 	$ opyum diff myfile.py
 

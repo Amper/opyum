@@ -85,6 +85,7 @@ def get_source\
     , optimizations: (BasicOptimization, type, list, tuple) = None
     , level: (float, int) = None
     , classes: tuple = None
+    , iter_count: int = 10
     ):
 
     """
@@ -99,13 +100,14 @@ def get_source\
             file = inspect.getfile(value)
         except TypeError:
             file = None
-        value = optimize\
-                ( optimizations = optimizations
-                , level         = level
-                , classes       = classes
-                , file          = file
-                , value         = value
-                )
+        for i in range(iter_count):
+            value = optimize\
+                    ( optimizations = optimizations
+                    , level         = level
+                    , classes       = classes
+                    , file          = file
+                    , value         = value
+                    )
     
     if isinstance(value, str):
         result = value
