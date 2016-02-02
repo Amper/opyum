@@ -36,12 +36,23 @@ opyum.activate()
 
 Show optimized source:
 
-	$ opyum show myfile.py
+    $ opyum show myfile.py
 
 Diff between original source and optimized source:
 
-	$ opyum diff myfile.py
+    $ opyum diff myfile.py
 
+Console diff (with "-c" or "--console" option):
+
+![console diff example](https://raw.githubusercontent.com/Amper/opyum/master/example/screen1.png)
+
+Custom app diff (with "--app" option):
+
+![app diff example](https://raw.githubusercontent.com/Amper/opyum/master/example/screen2.png)
+
+By default, html diff (without options):
+
+![app diff example](https://raw.githubusercontent.com/Amper/opyum/master/example/screen3.png)
 
 ## Installation
 
@@ -52,7 +63,6 @@ Installation is simple with pip:
 or with setuptools:
 
     $ easy_install opyum
-
 
 ## Documentation
 
