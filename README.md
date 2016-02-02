@@ -88,13 +88,21 @@ After:
 Before:
 
 ```python
-
+x1 = a ** (-2)
+x2 = a ** (-1)
+x3 = a ** ( 0)
+x4 = a ** ( 1)
+x5 = a ** ( 2)
 ```
 
 After:
 
 ```python
-
+x1 = 1 / (a * a)
+x2 = 1 / a
+x3 = 1
+x4 = a
+x5 = a * a
 ```
 
 ### "'Yield' to 'yield from'" optimization
@@ -117,13 +125,17 @@ yield from some_expression
 Before:
 
 ```python
-
+from math import pi
+def circumference(r):
+	return 2 * pi * r
 ```
 
 After:
 
 ```python
-
+from math import pi
+def circumference(r):
+	return 2 * 3.141592653589793 * r
 ```
 
 ### Custom constant propagation
@@ -131,13 +143,19 @@ After:
 Before:
 
 ```python
+C_PI = 3.141592653589793
 
+def circumference(r):
+	return 2 * C_PI * r
 ```
 
 After:
 
 ```python
+C_PI = 3.141592653589793
 
+def circumference(r):
+	return 2 * 3.141592653589793 * r
 ```
 
 
