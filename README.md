@@ -1,5 +1,4 @@
-opyum
-================================================
+# opyum
 
 [![version](https://img.shields.io/pypi/v/opyum.svg)](http://pypi.python.org/pypi/opyum)
 [![downloads](https://img.shields.io/pypi/dw/opyum.svg)](http://pypi.python.org/pypi/opyum)
@@ -7,17 +6,14 @@ opyum
 [![status](https://img.shields.io/pypi/status/opyum.svg)](http://pypi.python.org/pypi/opyum)
 [![pyversions](https://img.shields.io/pypi/pyversions/opyum.svg)](http://pypi.python.org/pypi/opyum)
 
-
-Description
------------
+## Description
 
 Optimizing Python applications without mutilation code
 
 
-Usage
------------
+## Usage
 
-Decorator:
+### Decorator:
 
 ```python
 from opyum import optimize
@@ -27,7 +23,7 @@ def function_for_optimize():
 	...
 ```
 
-Import-hook:
+### Import-hook:
 
 ```python
 import opyum
@@ -36,17 +32,14 @@ opyum.activate()
 # other imports
 ```
 
-Command-line mode:
+### Command-line mode:
 
 	$ opyum show myfile.py
 
 	$ opyum diff myfile.py
 
-	
 
-
-Installation
-------------
+## Installation
 
 Installation is simple with pip:
 
@@ -57,8 +50,7 @@ or with setuptools:
     $ easy_install opyum
 
 
-Documentation
--------------
+## Documentation
 
  [opyum.readthedocs.org](http://opyum.readthedocs.org/)
 
