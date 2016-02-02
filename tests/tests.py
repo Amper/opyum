@@ -245,6 +245,15 @@ class TestApp(unittest.TestCase):
         self.assertEqual("x += 100", src_after)
         self.assertGreaterEqual(time_before, time_after)
 
+    def test_std_const_propagation_and_folding_1(self):
+        src_before  = 'from math import pi\ny = sum(map(lambda r: (2 * pi * r), range(x)))'
+        src_after   = self.optimize(src_before, 'StandartConstantPropagation')
+        src_after   = self.optimize(src_after , 'ConstantFolding')
+        time_before = timeit(src_before, setup="x = 10")
+        time_after  = timeit(src_after , setup="x = 10")
+        self.assertTrue(True)
+        self.assertGreaterEqual(time_before, time_after)
+
 
 if __name__ == '__main__':
     unittest.main()
