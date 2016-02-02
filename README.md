@@ -6,9 +6,11 @@
 [![status](https://img.shields.io/pypi/status/opyum.svg)](http://pypi.python.org/pypi/opyum)
 [![pyversions](https://img.shields.io/pypi/pyversions/opyum.svg)](http://pypi.python.org/pypi/opyum)
 
+
 ## Description
 
-Optimizing Python applications without mutilation code
+Optimizing Python applications without mutilation code.
+Use the automatic modification of AST for code optimization, which is transparent to the user and requires the addition of only a couple of lines.
 
 
 ## Usage
@@ -63,6 +65,81 @@ By default, html diff (without options):
 
 ![app diff example](https://raw.githubusercontent.com/Amper/opyum/master/example/screen3.png)
 
+
+## List of optimizations
+
+### Constant folding
+
+Before:
+
+```python
+
+```
+
+After:
+
+```python
+
+```
+
+### "'Power' to 'multiplication'" optimization
+
+Before:
+
+```python
+
+```
+
+After:
+
+```python
+
+```
+
+### "'Yield' to 'yield from'" optimization
+
+Before:
+
+```python
+for x in some_expression:
+	yield x
+```
+
+After
+
+```python
+yield from some_expression
+```
+
+### Standart constant propagation
+
+Before:
+
+```python
+
+```
+
+After:
+
+```python
+
+```
+
+### Custom constant propagation
+
+Before:
+
+```python
+
+```
+
+After:
+
+```python
+
+```
+
+
 ## Installation
 
 Installation is simple with pip:
@@ -72,6 +149,7 @@ Installation is simple with pip:
 or with setuptools:
 
     $ easy_install opyum
+
 
 ## Documentation
 
