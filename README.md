@@ -16,7 +16,7 @@ Use the automatic modification of AST for code optimization, which is transparen
 
 ## Usage
 
-### Decorator:
+**Decorator**:
 
 ```python
 from opyum import optimize
@@ -26,7 +26,7 @@ def function_for_optimize():
 	...
 ```
 
-### Import-hook:
+**Import-hook**:
 
 ```python
 import opyum
@@ -35,7 +35,7 @@ opyum.activate()
 # other imports
 ```
 
-### "With" syntax:
+**"With" syntax:**
 
 ```python
 import opyum
@@ -44,7 +44,7 @@ with opyum.activate:
 	# other imports
 ```
 
-### Command-line mode:
+**Command-line mode:**
 
 Show optimized source:
 
@@ -69,7 +69,7 @@ By default, html diff (without options):
 
 ## List of optimizations
 
-### Constant folding
+**Constant folding**
 
 Before:
 
@@ -83,7 +83,7 @@ After:
 
 ```
 
-### "'Power' to 'multiplication'" optimization
+**"'Power' to 'multiplication'" optimization**
 
 Before:
 
@@ -105,7 +105,7 @@ x4 = a
 x5 = a * a
 ```
 
-### "'Yield' to 'yield from'" optimization
+**"'Yield' to 'yield from'" optimization**
 
 Before:
 
@@ -120,7 +120,7 @@ After
 yield from some_expression
 ```
 
-### Standart constant propagation
+**Standart constant propagation**
 
 Before:
 
@@ -138,7 +138,7 @@ def circumference(r):
 	return 2 * 3.141592653589793 * r
 ```
 
-### Custom constant propagation
+**Custom constant propagation**
 
 Before:
 
