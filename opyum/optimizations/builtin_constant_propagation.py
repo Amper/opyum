@@ -11,14 +11,14 @@ from . import ASTOptimization
 
 
 
-class StandartConstantPropagation(ASTOptimization):
+class BuiltinConstantPropagation(ASTOptimization):
     """
 
     """
 
     @property
     def name(self) -> str:
-        return 'Standart constant propagation'
+        return 'Builtin constant propagation'
 
     @property
     def description(self) -> str:

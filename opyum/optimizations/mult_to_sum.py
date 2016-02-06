@@ -43,15 +43,15 @@ class MultToSum(ASTOptimization):
                     node       = ast.copy_location(ast.Num(n = 0), node)
                 elif node.right.n == 1:
                     node       = node.left
-                # elif node.right.n == 2:
-                #     node.op    = ast.copy_location(ast.Add(), node.op)
-                #     node.right = copy(node.left)
+                elif node.right.n == 2:
+                    node.op    = ast.copy_location(ast.Add(), node.op)
+                    node.right = copy(node.left)
             elif isinstance(node.left , ast.Num):
                 if node.left.n == 0:
                     node       = ast.copy_location(ast.Num(n = 0), node)
                 elif node.left.n == 1:
                     node       = node.right
-                # elif node.left.n == 2:
-                #     node.op    = ast.copy_location(ast.Add(), node.op)
-                #     node.left  = copy(node.right)
+                elif node.left.n == 2:
+                    node.op    = ast.copy_location(ast.Add(), node.op)
+                    node.left  = copy(node.right)
         return node

@@ -120,7 +120,7 @@ After
 yield from some_expression
 ```
 
-**Standart constant propagation**
+**Builtin constant propagation**
 
 Before:
 
