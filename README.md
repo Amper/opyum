@@ -23,7 +23,7 @@ from opyum import optimize
 
 @optimize
 def function_for_optimize():
-	...
+    ...
 ```
 
 **Import-hook**:
@@ -41,7 +41,7 @@ opyum.activate()
 import opyum
 
 with opyum.activate:
-	# other imports
+    # other imports
 ```
 
 **Command-line mode:**
@@ -69,7 +69,7 @@ By default, html diff (without options):
 
 ## List of optimizations
 
-**Constant folding**
+####Constant folding
 
 Before:
 
@@ -87,7 +87,7 @@ y = [0, 4, 16, 36, 64]
 z = 499500
 ```
 
-**"'Power' to 'multiplication'" optimization**
+####"'Power' to 'multiplication'" optimization
 
 Before:
 
@@ -109,13 +109,13 @@ x4 = a
 x5 = a * a
 ```
 
-**"'Yield' to 'yield from'" optimization**
+####"'Yield' to 'yield from'" optimization
 
 Before:
 
 ```python
 for x in some_expression:
-	yield x
+    yield x
 ```
 
 After
@@ -124,14 +124,14 @@ After
 yield from some_expression
 ```
 
-**Builtin constant propagation**
+####Builtin constant propagation
 
 Before:
 
 ```python
 from math import pi
 def circumference(r):
-	return 2 * pi * r
+    return 2 * pi * r
 ```
 
 After:
@@ -139,10 +139,10 @@ After:
 ```python
 from math import pi
 def circumference(r):
-	return 2 * 3.141592653589793 * r
+    return 2 * 3.141592653589793 * r
 ```
 
-**Custom constant propagation**
+####Custom constant propagation
 
 Before:
 
@@ -150,7 +150,7 @@ Before:
 C_PI = 3.141592653589793
 
 def circumference(r):
-	return 2 * C_PI * r
+    return 2 * C_PI * r
 ```
 
 After:
@@ -159,7 +159,27 @@ After:
 C_PI = 3.141592653589793
 
 def circumference(r):
-	return 2 * 3.141592653589793 * r
+    return 2 * 3.141592653589793 * r
+```
+
+####Dead code elimination
+
+Before:
+
+```python
+if condition1:
+    pass
+elif condition2:
+    do_something()
+else:
+    pass
+```
+
+After:
+
+```python
+if not condition1 and condition2:
+    do_something()
 ```
 
 

@@ -24,7 +24,10 @@ class TestResults(BaseTestCase):
         self.src_check     = ()
 
     def tearDown(self):
-        if self.src_before and self.src_check and self.optimizations:
+        if (self.src_before 
+        and self.optimizations
+        and self.src_check != ()
+           ):
             if not isinstance(self.src_before, (list, tuple)):
                 self.src_before = (self.src_before, )
             if not isinstance(self.src_check, (list, tuple)):
@@ -224,8 +227,83 @@ class TestResults(BaseTestCase):
 
     def test_builtin_const_propagation_and_folding_1(self):
         self.optimizations = ('BuiltinConstantPropagation', 'ConstantFolding')
-        self.src_before    = 'from math import pi\ny = sum(map(lambda r: (2 * pi * r), range(x)))'
+        self.src_before    = 'from math import pi\ny = sum(map((lambda r: (2 * pi * r)), range(x)))'
         self.src_check     = 'from math import pi\ny = sum(map((lambda r: (6.283185307179586 * r)), range(x)))'
+
+    def test_dead_code_elimination_1(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'if condition:'
+                                        , '    do_something()'
+                                        , 'else:'
+                                        , '    pass'          
+                                      ) )
+        self.src_check     = '\n'.join( ( 'if condition:'
+                                        , '    do_something()'
+                                      ) )
+
+    def test_dead_code_elimination_2(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'if condition:'
+                                        , '    pass'
+                                        , 'else:'
+                                        , '    do_something()'
+                                      ) )
+        self.src_check     = '\n'.join( ( 'if (not condition):'
+                                        , '    do_something()'
+                                      ) )
+
+    def test_dead_code_elimination_3(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'if condition1:'
+                                        , '    pass'
+                                        , 'elif condition2:'
+                                        , '    pass'
+                                        , 'else:'
+                                        , '    pass'
+                                        , 'do_something()'
+                                      ) )
+        self.src_check     = 'do_something()'
+
+    def test_dead_code_elimination_4(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'if condition1:'
+                                        , '    pass'
+                                        , 'elif condition2:'
+                                        , '    do_something1()'
+                                        , 'else:'
+                                        , '    do_something2()'
+                                      ) )
+        self.src_check     = '\n'.join( ( 'if ((not condition1) and condition2):'
+                                        , '    do_something1()'
+                                        , 'else:'
+                                        , '    do_something2()'
+                                      ) )
+
+    def test_dead_code_elimination_5(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'if condition1:'
+                                        , '    pass'
+                                        , 'elif condition2:'
+                                        , '    do_something()'
+                                        , 'else:'
+                                        , '    pass'
+                                      ) )
+        self.src_check     = '\n'.join( ( 'if ((not condition1) and condition2):'
+                                        , '    do_something()'
+                                      ) )
+
+    def test_dead_code_elimination_6(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'if condition1:'
+                                        , '    pass'
+                                        , 'elif condition2:'
+                                        , '    pass'
+                                        , 'else:'
+                                        , '    do_something()'
+                                      ) )
+        self.src_check     = '\n'.join( ( 'if ((not condition1) and (not condition2)):'
+                                        , '    do_something()'
+                                      ) )
 
 
 class Benchmarks(BaseTestCase):
@@ -330,20 +408,20 @@ class Benchmarks(BaseTestCase):
         self.src_before    = 'def test(x):\n    for y in range(x): yield y\nr = sum(test(x))'
         self.set_up        = "x = 10"
 
-    def test_format_positions_1(self):
-        self.optimizations = 'FormatPositions'
-        self.src_before    = "'{}'.format(*x)"
-        self.set_up        = "x = [10000]"
+    #def test_format_positions_1(self):
+    #    self.optimizations = 'FormatPositions'
+    #    self.src_before    = "'{}'.format(*x)"
+    #    self.set_up        = "x = [10000]"
 
-    def test_format_positions_2(self):
-        self.optimizations = 'FormatPositions'
-        self.src_before    = "'_{}_{}_'.format(*x)"
-        self.set_up        = "x = [10000, 100000]"
+    #def test_format_positions_2(self):
+    #    self.optimizations = 'FormatPositions'
+    #    self.src_before    = "'_{}_{}_'.format(*x)"
+    #    self.set_up        = "x = [10000, 100000]"
 
-    def test_format_positions_3(self):
-        self.optimizations = 'FormatPositions'
-        self.src_before    = "'{}{}{}'.format(*x)"
-        self.set_up        = "x = [10000, 100000, 1000000]"
+    #def test_format_positions_3(self):
+    #    self.optimizations = 'FormatPositions'
+    #    self.src_before    = "'{}{}{}'.format(*x)"
+    #    self.set_up        = "x = [10000, 100000, 1000000]"
 
     def test_constant_folding_1(self):
         self.optimizations = 'ConstantFolding'
@@ -370,7 +448,7 @@ class Benchmarks(BaseTestCase):
 
     def test_builtin_const_propagation_and_folding_1(self):
         self.optimizations = ('BuiltinConstantPropagation', 'ConstantFolding')
-        self.src_before    = 'from math import pi\ny = sum(map(lambda r: (2 * pi * r), range(x)))'
+        self.src_before    = 'from math import pi\ny = sum(map((lambda r: (2 * pi * r)), range(x)))'
         self.set_up        = 'x = 10'
 
 
