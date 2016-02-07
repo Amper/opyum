@@ -6,7 +6,6 @@
 import ast
 import operator
 from collections import deque
-from astor import to_source, dump
 from . import ASTOptimization
 
 
