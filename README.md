@@ -74,13 +74,17 @@ By default, html diff (without options):
 Before:
 
 ```python
-
+x = 7 * 24 * 60 * 60
+y = [i ** 2 for i in range(10) if i % 2 == 0]
+z = sum(range(1000))
 ```
 
 After:
 
 ```python
-
+x = 604800
+y = [0, 4, 16, 36, 64]
+z = 499500
 ```
 
 **"'Power' to 'multiplication'" optimization**

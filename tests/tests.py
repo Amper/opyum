@@ -36,6 +36,8 @@ class TestResults(BaseTestCase):
                 for optimization in self.optimizations:
                     src_after = self.optimize(src_after, optimization)
                 self.assertEqual(src_check, src_after)
+        else:
+            self.assertTrue(False, msg='Not specified all the necessary parameters')
         self.src_before    = ()
         self.optimizations = ()
         self.src_check     = ()
@@ -204,6 +206,22 @@ class TestResults(BaseTestCase):
         self.src_before    = 'x += (((10 + 10) + (10 + 10)) + (10 + (10 + 10)) + ((10 + 10) + 10))'
         self.src_check     = 'x += 100'
 
+    def test_constant_folding_3(self):
+        self.optimizations = 'ConstantFolding'
+        self.src_before    = 'x = [(i + 1) for i in range(0, 20, 2) if ((i % 3) != 0)]'
+        self.src_check     = 'x = [3, 5, 9, 11, 15, 17]'
+
+    def test_constant_folding_4(self):
+        self.optimizations = 'ConstantFolding'
+        self.src_before    = ( 'x = 7 * 24 * 60 * 60'
+                             , 'y = [(i ** 2) for i in range(10) if ((i % 2) == 0)]'
+                             , 'z = sum(range(1000))'
+                             )
+        self.src_check     = ( 'x = 604800'
+                             , 'y = [0, 4, 16, 36, 64]'
+                             , 'z = 499500'
+                             )
+
     def test_builtin_const_propagation_and_folding_1(self):
         self.optimizations = ('BuiltinConstantPropagation', 'ConstantFolding')
         self.src_before    = 'from math import pi\ny = sum(map(lambda r: (2 * pi * r), range(x)))'
@@ -336,6 +354,19 @@ class Benchmarks(BaseTestCase):
         self.optimizations = 'ConstantFolding'
         self.src_before    = 'x += (((10 + 10) + (10 + 10)) + (10 + (10 + 10)) + ((10 + 10) + 10))'
         self.set_up        = 'x = 0'
+
+    def test_constant_folding_3(self):
+        self.optimizations = 'ConstantFolding'
+        self.src_before    = 'x += sum([(i + 1) for i in range(0, 20, 2) if ((i % 3) != 0)])'
+        self.set_up        = 'x = 0'
+
+    def test_constant_folding_4(self):
+        self.optimizations = 'ConstantFolding'
+        self.src_before    = ( 'x = 7 * 24 * 60 * 60'
+                             , 'y = [(i ** 2) for i in range(10) if ((i % 2) == 0)]'
+                             , 'z = sum(range(1000))'
+                             )
+        self.set_up        = ''
 
     def test_builtin_const_propagation_and_folding_1(self):
         self.optimizations = ('BuiltinConstantPropagation', 'ConstantFolding')
