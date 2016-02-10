@@ -26,6 +26,24 @@ class DeadCodeElimination(ASTOptimization):
     def level(self) -> int:
         return 1
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._node_level   = 0
+        self._return_level = None
+
+    def visit(self, node):
+        if self._return_level:
+            if self._node_level == self._return_level:
+                return None
+            elif self._node_level < self._return_level:
+                self._return_level = None
+        if isinstance(node, ast.Return):
+            self._return_level = self._node_level
+        self._node_level += 1
+        node = super().visit(node)
+        self._node_level -= 1
+        return node
+
     def visit_If(self, node):
         node = self.generic_visit(node)
         if (node.orelse 
@@ -55,4 +73,5 @@ class DeadCodeElimination(ASTOptimization):
             else:
                 node = None
         return node
+
 

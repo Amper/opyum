@@ -11,7 +11,7 @@
 
 **Optimizing Python applications without mutilation code.** 
 
-Use the automatic modification of AST for code optimization, which is transparent to the user and requires the addition of only a couple of lines.
+Use the automatic modification of AST for code optimization, which is transparent to the user and requires the addition of only a few lines.
 
 
 ## Usage
@@ -167,6 +167,10 @@ def circumference(r):
 Before:
 
 ```python
+def do_something():
+    return 1
+    print('returning 1')
+
 if condition1:
     pass
 elif condition2:
@@ -178,6 +182,9 @@ else:
 After:
 
 ```python
+def do_something():
+    return 1
+
 if not condition1 and condition2:
     do_something()
 ```

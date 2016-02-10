@@ -305,6 +305,37 @@ class TestResults(BaseTestCase):
                                         , '    do_something()'
                                       ) )
 
+    def test_dead_code_elimination_7(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( 'def test(x):'
+                                        , '    return (x + 1)'
+                                        , '    x = (x - 1)'
+                                        , 'y = test(5)'
+                                      ) )
+        self.src_check     = '\n'.join( ( 'def test(x):'
+                                        , '    return (x + 1)'
+                                        , 'y = test(5)'
+                                      ) )
+
+    def test_dead_code_elimination_8(self):
+        self.optimizations = 'DeadCodeElimination'
+        self.src_before    = '\n'.join( ( "def test(x):"
+                                        , ""
+                                        , "    def test2(f):"
+                                        , "        return f((x + 1))"
+                                        , "        x = (x - 1)"
+                                        , "    return test2"
+                                        , "    print(x)"
+                                        , "y = test(5)(func)"
+                                      ) )
+        self.src_check     = '\n'.join( ( "def test(x):"
+                                        , ""
+                                        , "    def test2(f):"
+                                        , "        return f((x + 1))"
+                                        , "    return test2"
+                                        , "y = test(5)(func)"
+                                      ) )
+
 
 class Benchmarks(BaseTestCase):
 
